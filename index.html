@@ -28,7 +28,7 @@
 
     h1 {
       font-size: 24px;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
     }
 
     p {
@@ -37,37 +37,21 @@
       margin-bottom: 30px;
     }
 
-    .action-button {
-      background-color: #7a00cc;
-      color: white;
-      font-size: 20px;
-      padding: 18px 40px;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-      transition: background-color 0.3s ease;
-    }
-
-    .action-button:hover {
-      background-color: #5e00a3;
-    }
-
+    /* Make green phone icon larger */
     .vapi-launcher {
-      display: none !important;
+      transform: scale(1.6) !important;
+      bottom: 40px !important;
+      right: 40px !important;
     }
   </style>
 </head>
 <body>
   <img src="yotel-logo.jpg" alt="Yotel New York Logo" class="logo" />
   <h1>Speak To Your Personal Yotel Assistant</h1>
-  <p>Tap the button below to begin.</p>
-
-  <button class="action-button" id="startAssistant">Talk Now</button>
+  <p>Tap the green phone icon to begin.</p>
 
   <!-- Vapi Widget Script -->
   <script>
-    var vapiInstance = null;
     const apiKey = "863d4e06-2fac-4b88-b942-3fd5ff785b95";
     const assistantId = "ff2f0acb-f94a-4c83-a003-7baefbc70e3a";
 
@@ -79,28 +63,20 @@
       g.async = true;
       s.parentNode.insertBefore(g, s);
       g.onload = function () {
-        vapiInstance = window.vapiSDK.run({
+        window.vapiSDK.run({
           apiKey: apiKey,
           assistant: assistantId,
-          disableDefaultLauncher: true,
+          disableDefaultLauncher: false, // Enable the green phone icon
           config: {
             theme: {
               button: {
-                backgroundColor: "#7a00cc"
+                backgroundColor: "#00c851", // Green color
               }
             }
           }
         });
       };
     })(document, "script");
-
-    document.getElementById("startAssistant").onclick = function () {
-      if (vapiInstance) {
-        vapiInstance.open(); // Launch assistant manually
-      } else {
-        alert("Assistant is still loading. Please wait a second and try again.");
-      }
-    };
   </script>
 </body>
 </html>
