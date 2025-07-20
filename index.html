@@ -52,19 +52,25 @@
     .action-button:hover {
       background-color: #5e00a3;
     }
+
+    /* Force-hide the default green phone launcher */
+    .vapi-launcher {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+    }
   </style>
 </head>
 <body>
-  <img src="yotel-logo.jpg" alt="Yotel New York Logo" class="logo" />
+  <img src="01_yotel3.jpg" alt="Yotel New York Logo" class="logo" />
   <h1>Speak To Your Personal Yotel Assistant</h1>
   <p>Tap the button below to begin.</p>
 
   <button class="action-button" id="startAssistant">Talk Now</button>
 
-  <script type="module">
-    import Vapi from 'https://esm.run/@vapi-ai/web-sdk';
-
-    const vapi = new Vapi("863d4e06-2fac-4b88-b942-3fd5ff785b95");
+  <script src="https://cdn.jsdelivr.net/npm/@vapi-ai/web-sdk@latest/dist/index.umd.min.js"></script>
+  <script>
+    const vapi = new window.Vapi("863d4e06-2fac-4b88-b942-3fd5ff785b95");
 
     document.getElementById("startAssistant").addEventListener("click", () => {
       vapi.startConversation({
@@ -74,6 +80,14 @@
         }
       });
     });
+
+    // Safety: hide launcher after VAPI loads
+    setTimeout(() => {
+      const launcher = document.querySelector('.vapi-launcher');
+      if (launcher) {
+        launcher.style.display = 'none';
+      }
+    }, 1000);
   </script>
 </body>
 </html>
