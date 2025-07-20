@@ -2,7 +2,6 @@
 <html>
   <head>
     <title>Talk to Our Assistant</title>
-    <script src="https://cdn.jsdelivr.net/npm/@vapi-ai/web-sdk"></script>
     <style>
       body {
         font-family: sans-serif;
@@ -22,20 +21,36 @@
   </head>
   <body>
     <h1>Talk to Our Voice Assistant</h1>
-    <button onclick="startAssistant()">Start Conversation</button>
+    <button id="startBtn">Start Conversation</button>
 
     <script>
-      window.onload = () => {
-        const vapi = new Vapi.default("863d4e06-2fac-4b88-b942-3fd5ff785b95");
+      var vapiInstance = null;
+      const apiKey = "863d4e06-2fac-4b88-b942-3fd5ff785b95"; // Your Public API Key
+      const assistantId = "ff2f0acb-f94a-4c83-a003-7baefbc70e3a"; // Your Assistant ID
 
-        window.startAssistant = () => {
-          vapi.startConversation({
-            assistant: "ff2f0acb-f94a-4c83-a003-7baefbc70e3a",
-            callContext: {
-              fromWeb: true
-            }
+      (function (d, t) {
+        var g = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+        g.src =
+          "https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
+        g.defer = true;
+        g.async = true;
+        s.parentNode.insertBefore(g, s);
+        g.onload = function () {
+          vapiInstance = window.vapiSDK.run({
+            apiKey: apiKey,
+            assistant: assistantId,
+            config: {}
           });
         };
+      })(document, "script");
+
+      document.getElementById("startBtn").onclick = function () {
+        if (vapiInstance) {
+          vapiInstance.open(); // Launch the assistant
+        } else {
+          console.error("VAPI widget not loaded yet.");
+        }
       };
     </script>
   </body>
