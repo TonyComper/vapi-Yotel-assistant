@@ -67,9 +67,11 @@
 
   <button class="action-button" id="startAssistant">Talk Now</button>
 
-  <script src="https://cdn.jsdelivr.net/npm/@vapi-ai/web-sdk@latest/dist/index.umd.min.js"></script>
-  <script>
-    const vapi = new window.Vapi("863d4e06-2fac-4b88-b942-3fd5ff785b95");
+  <!-- Load Web SDK using esm.sh -->
+  <script type="module">
+    import Vapi from 'https://esm.sh/@vapi-ai/web-sdk';
+
+    const vapi = new Vapi("863d4e06-2fac-4b88-b942-3fd5ff785b95");
 
     document.getElementById("startAssistant").addEventListener("click", () => {
       vapi.startConversation({
@@ -80,7 +82,7 @@
       });
     });
 
-    // Hide any floating icon just in case
+    // Hide any injected launcher as backup
     setTimeout(() => {
       const launcher = document.querySelector('.vapi-launcher');
       if (launcher) launcher.style.display = 'none';
