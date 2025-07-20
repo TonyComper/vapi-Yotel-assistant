@@ -1,114 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Speak To Your Personal Yotel Assistant</title>
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-          Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-        background-color: #ffffff;
-        color: #333;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        text-align: center;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Speak To Your Personal Yotel Assistant</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      background-color: #ffffff;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+    }
 
-      .logo {
-        width: 90%;
-        max-width: 360px;
-        border-radius: 8px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        margin-bottom: 24px;
-      }
+    .logo {
+      width: 90%;
+      max-width: 360px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 24px;
+    }
 
-      h1 {
-        font-size: 24px;
-        margin: 0 20px 12px;
-      }
+    h1 {
+      font-size: 24px;
+      margin: 0 20px 12px;
+    }
 
-      p {
-        font-size: 16px;
-        color: #666;
-        margin: 0 20px 30px;
-      }
+    p {
+      font-size: 16px;
+      color: #666;
+      margin: 0 20px 30px;
+    }
 
-      .action-button {
-        background-color: #7a00cc;
-        color: white;
-        font-size: 20px;
-        padding: 18px 40px;
-        border: none;
-        border-radius: 12px;
-        cursor: pointer;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        transition: background-color 0.3s ease;
-      }
+    .action-button {
+      background-color: #7a00cc;
+      color: white;
+      font-size: 20px;
+      padding: 18px 40px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s ease;
+    }
 
-      .action-button:hover {
-        background-color: #5e00a3;
-      }
+    .action-button:hover {
+      background-color: #5e00a3;
+    }
 
-      @media (min-height: 700px) {
-        h1 {
-          font-size: 28px;
+    /* Double-ensure launcher is hidden */
+    .vapi-launcher {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+    }
+  </style>
+</head>
+<body>
+  <img src="yotel-logo.jpg" alt="Yotel New York Logo" class="logo" />
+  <h1>Speak To Your Personal Yotel Assistant</h1>
+  <p>Tap the button below to begin.</p>
+
+  <button class="action-button" id="startAssistant">Talk Now</button>
+
+  <script>
+    const apiKey = "863d4e06-2fac-4b88-b942-3fd5ff785b95";
+    const assistantId = "ff2f0acb-f94a-4c83-a003-7baefbc70e3a";
+    let vapiInstance = null;
+
+    // Load the SDK script
+    const script = document.createElement("script");
+    script.src = "https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
+    script.defer = true;
+    script.async = true;
+    document.body.appendChild(script);
+
+    // Once loaded, configure it and hide the default launcher
+    script.onload = () => {
+      vapiInstance = window.vapiSDK.run({
+        apiKey,
+        assistant: assistantId,
+        config: {
+          disableDefaultLauncher: true
         }
+      });
 
-        p {
-          font-size: 18px;
+      // Just in case: hide the green icon manually after a delay
+      setTimeout(() => {
+        const launcher = document.querySelector('.vapi-launcher');
+        if (launcher) {
+          launcher.style.display = 'none';
         }
+      }, 1000);
+    };
 
-        .action-button {
-          font-size: 22px;
-          padding: 20px 50px;
-        }
+    // Talk Now button
+    document.getElementById("startAssistant").addEventListener("click", () => {
+      if (vapiInstance) {
+        vapiInstance.open();
+      } else {
+        alert("Assistant is still loading. Please try again in a few seconds.");
       }
-    </style>
-  </head>
-  <body>
-    <img src="yotel-logo.jpg" alt="Yotel New York Logo" class="logo" />
-    <h1>Speak To Your Personal Yotel Assistant</h1>
-    <p>Tap the button below to begin.</p>
-
-    <button class="action-button" id="startAssistant">Talk Now</button>
-
-    <script>
-      const apiKey = "863d4e06-2fac-4b88-b942-3fd5ff785b95";
-      const assistantId = "ff2f0acb-f94a-4c83-a003-7baefbc70e3a";
-
-      window.vapiInstance = null;
-
-      window.onload = () => {
-        const g = document.createElement("script");
-        g.src = "https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
-        g.defer = true;
-        g.async = true;
-        document.body.appendChild(g);
-
-        g.onload = function () {
-          window.vapiInstance = window.vapiSDK.run({
-            apiKey,
-            assistant: assistantId,
-            config: {
-              disableDefaultLauncher: true
-            }
-          });
-        };
-
-        document.getElementById("startAssistant").onclick = function () {
-          if (window.vapiInstance) {
-            window.vapiInstance.open();
-          } else {
-            alert("Assistant is still loading. Please try again in a few seconds.");
-          }
-        };
-      };
-    </script>
-  </body>
+    });
+  </script>
+</body>
 </html>
