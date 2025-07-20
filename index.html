@@ -55,8 +55,6 @@
 
     .vapi-launcher {
       display: none !important;
-      visibility: hidden !important;
-      opacity: 0 !important;
     }
   </style>
 </head>
@@ -67,26 +65,42 @@
 
   <button class="action-button" id="startAssistant">Talk Now</button>
 
-  <!-- Load Web SDK using esm.sh -->
-  <script type="module">
-    import Vapi from 'https://esm.sh/@vapi-ai/web-sdk';
+  <!-- Vapi Widget Script -->
+  <script>
+    var vapiInstance = null;
+    const apiKey = "863d4e06-2fac-4b88-b942-3fd5ff785b95";
+    const assistantId = "ff2f0acb-f94a-4c83-a003-7baefbc70e3a";
 
-    const vapi = new Vapi("863d4e06-2fac-4b88-b942-3fd5ff785b95");
+    (function (d, t) {
+      var g = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      g.src = "https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
+      g.defer = true;
+      g.async = true;
+      s.parentNode.insertBefore(g, s);
+      g.onload = function () {
+        vapiInstance = window.vapiSDK.run({
+          apiKey: apiKey,
+          assistant: assistantId,
+          disableDefaultLauncher: true,
+          config: {
+            theme: {
+              button: {
+                backgroundColor: "#7a00cc"
+              }
+            }
+          }
+        });
+      };
+    })(document, "script");
 
-    document.getElementById("startAssistant").addEventListener("click", () => {
-      vapi.startConversation({
-        assistant: "ff2f0acb-f94a-4c83-a003-7baefbc70e3a",
-        callContext: {
-          fromWeb: true
-        }
-      });
-    });
-
-    // Hide any injected launcher as backup
-    setTimeout(() => {
-      const launcher = document.querySelector('.vapi-launcher');
-      if (launcher) launcher.style.display = 'none';
-    }, 1000);
+    document.getElementById("startAssistant").onclick = function () {
+      if (vapiInstance) {
+        vapiInstance.open(); // Launch assistant manually
+      } else {
+        alert("Assistant is still loading. Please wait a second and try again.");
+      }
+    };
   </script>
 </body>
 </html>
