@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Talk to Our Assistant</title>
+    <script src="https://unpkg.com/@vapi-ai/web-sdk"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+        margin-top: 100px;
+      }
+      button {
+        padding: 16px 32px;
+        font-size: 18px;
+        border-radius: 8px;
+        background: #0070f3;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Talk to Our Voice Assistant</h1>
+    <button onclick="startAssistant()">Start Conversation</button>
+
+    <script>
+      // Initialize VAPI with your Public API Key
+      const vapi = new Vapi.default("863d4e06-2fac-4b88-b942-3fd5ff785b95");
+
+      function startAssistant() {
+        vapi.startConversation({
+          assistant: "ff2f0acb-f94a-4c83-a003-7baefbc70e3a", // Your Assistant ID
+          callContext: {
+            fromWeb: true
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
