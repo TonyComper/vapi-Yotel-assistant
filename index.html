@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Speak To Your Personal Yotel Assistant</title>
     <style>
-      * {
-        box-sizing: border-box;
-      }
-
       body {
         margin: 0;
         padding: 0;
@@ -76,42 +72,42 @@
     </style>
   </head>
   <body>
-    <img src="01_yotel3.jpg" alt="Yotel New York Logo" class="logo" />
+    <img src="yotel-logo.jpg" alt="Yotel New York Logo" class="logo" />
     <h1>Speak To Your Personal Yotel Assistant</h1>
     <p>Tap the button below to begin.</p>
 
     <button class="action-button" id="startAssistant">Talk Now</button>
 
     <script>
-      let vapiInstance = null;
       const apiKey = "863d4e06-2fac-4b88-b942-3fd5ff785b95";
       const assistantId = "ff2f0acb-f94a-4c83-a003-7baefbc70e3a";
 
-      (function (d, t) {
-        const g = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-        g.src =
-          "https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
+      window.vapiInstance = null;
+
+      window.onload = () => {
+        const g = document.createElement("script");
+        g.src = "https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
         g.defer = true;
         g.async = true;
-        s.parentNode.insertBefore(g, s);
+        document.body.appendChild(g);
+
         g.onload = function () {
-          vapiInstance = window.vapiSDK.run({
+          window.vapiInstance = window.vapiSDK.run({
             apiKey,
             assistant: assistantId,
             config: {
-              disableDefaultLauncher: true // hide floating green phone icon
+              disableDefaultLauncher: true
             }
           });
         };
-      })(document, "script");
 
-      document.getElementById("startAssistant").onclick = function () {
-        if (vapiInstance) {
-          vapiInstance.open(); // launch the call
-        } else {
-          console.error("Assistant not loaded yet");
-        }
+        document.getElementById("startAssistant").onclick = function () {
+          if (window.vapiInstance) {
+            window.vapiInstance.open();
+          } else {
+            alert("Assistant is still loading. Please try again in a few seconds.");
+          }
+        };
       };
     </script>
   </body>
