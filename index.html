@@ -8,16 +8,14 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      background-color: #ffffff;
-      color: #333;
+      font-family: sans-serif;
+      background-color: #fff;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
       text-align: center;
+      height: 100vh;
     }
 
     .logo {
@@ -30,13 +28,13 @@
 
     h1 {
       font-size: 24px;
-      margin: 0 20px 12px;
+      margin-bottom: 8px;
     }
 
     p {
       font-size: 16px;
       color: #666;
-      margin: 0 20px 30px;
+      margin-bottom: 30px;
     }
 
     .action-button {
@@ -54,13 +52,6 @@
     .action-button:hover {
       background-color: #5e00a3;
     }
-
-    /* Double-ensure launcher is hidden */
-    .vapi-launcher {
-      display: none !important;
-      visibility: hidden !important;
-      opacity: 0 !important;
-    }
   </style>
 </head>
 <body>
@@ -70,44 +61,18 @@
 
   <button class="action-button" id="startAssistant">Talk Now</button>
 
-  <script>
-    const apiKey = "863d4e06-2fac-4b88-b942-3fd5ff785b95";
-    const assistantId = "ff2f0acb-f94a-4c83-a003-7baefbc70e3a";
-    let vapiInstance = null;
+  <script type="module">
+    import Vapi from 'https://esm.run/@vapi-ai/web-sdk';
 
-    // Load the SDK script
-    const script = document.createElement("script");
-    script.src = "https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
-    script.defer = true;
-    script.async = true;
-    document.body.appendChild(script);
+    const vapi = new Vapi("863d4e06-2fac-4b88-b942-3fd5ff785b95");
 
-    // Once loaded, configure it and hide the default launcher
-    script.onload = () => {
-      vapiInstance = window.vapiSDK.run({
-        apiKey,
-        assistant: assistantId,
-        config: {
-          disableDefaultLauncher: true
+    document.getElementById("startAssistant").addEventListener("click", () => {
+      vapi.startConversation({
+        assistant: "ff2f0acb-f94a-4c83-a003-7baefbc70e3a",
+        callContext: {
+          fromWeb: true
         }
       });
-
-      // Just in case: hide the green icon manually after a delay
-      setTimeout(() => {
-        const launcher = document.querySelector('.vapi-launcher');
-        if (launcher) {
-          launcher.style.display = 'none';
-        }
-      }, 1000);
-    };
-
-    // Talk Now button
-    document.getElementById("startAssistant").addEventListener("click", () => {
-      if (vapiInstance) {
-        vapiInstance.open();
-      } else {
-        alert("Assistant is still loading. Please try again in a few seconds.");
-      }
     });
   </script>
 </body>
