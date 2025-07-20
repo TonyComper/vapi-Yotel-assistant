@@ -1,35 +1,94 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Talk to Our Assistant</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Speak To Your Personal Yotel Assistant</title>
     <style>
-      body {
-        font-family: sans-serif;
-        text-align: center;
-        margin-top: 100px;
+      * {
+        box-sizing: border-box;
       }
-      button {
-        padding: 16px 32px;
-        font-size: 18px;
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+          Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        background-color: #ffffff;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        text-align: center;
+      }
+
+      .logo {
+        width: 90%;
+        max-width: 360px;
         border-radius: 8px;
-        background: #0070f3;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 24px;
+      }
+
+      h1 {
+        font-size: 24px;
+        margin: 0 20px 12px;
+      }
+
+      p {
+        font-size: 16px;
+        color: #666;
+        margin: 0 20px 30px;
+      }
+
+      .action-button {
+        background-color: #7a00cc;
         color: white;
+        font-size: 20px;
+        padding: 18px 40px;
         border: none;
+        border-radius: 12px;
         cursor: pointer;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s ease;
+      }
+
+      .action-button:hover {
+        background-color: #5e00a3;
+      }
+
+      @media (min-height: 700px) {
+        h1 {
+          font-size: 28px;
+        }
+
+        p {
+          font-size: 18px;
+        }
+
+        .action-button {
+          font-size: 22px;
+          padding: 20px 50px;
+        }
       }
     </style>
   </head>
   <body>
-    <h1>Talk to Our Voice Assistant</h1>
-    <button id="startBtn">Start Conversation</button>
+    <img src="01_yotel3.jpg" alt="Yotel New York Logo" class="logo" />
+    <h1>Speak To Your Personal Yotel Assistant</h1>
+    <p>Tap the button below to begin.</p>
+
+    <button class="action-button" id="startAssistant">Talk Now</button>
 
     <script>
-      var vapiInstance = null;
-      const apiKey = "863d4e06-2fac-4b88-b942-3fd5ff785b95"; // Your Public API Key
-      const assistantId = "ff2f0acb-f94a-4c83-a003-7baefbc70e3a"; // Your Assistant ID
+      let vapiInstance = null;
+      const apiKey = "863d4e06-2fac-4b88-b942-3fd5ff785b95";
+      const assistantId = "ff2f0acb-f94a-4c83-a003-7baefbc70e3a";
 
       (function (d, t) {
-        var g = d.createElement(t),
+        const g = d.createElement(t),
           s = d.getElementsByTagName(t)[0];
         g.src =
           "https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
@@ -38,18 +97,20 @@
         s.parentNode.insertBefore(g, s);
         g.onload = function () {
           vapiInstance = window.vapiSDK.run({
-            apiKey: apiKey,
+            apiKey,
             assistant: assistantId,
-            config: {}
+            config: {
+              disableDefaultLauncher: true // hide floating green phone icon
+            }
           });
         };
       })(document, "script");
 
-      document.getElementById("startBtn").onclick = function () {
+      document.getElementById("startAssistant").onclick = function () {
         if (vapiInstance) {
-          vapiInstance.open(); // Launch the assistant
+          vapiInstance.open(); // launch the call
         } else {
-          console.error("VAPI widget not loaded yet.");
+          console.error("Assistant not loaded yet");
         }
       };
     </script>
