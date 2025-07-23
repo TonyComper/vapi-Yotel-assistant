@@ -13,9 +13,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       text-align: center;
       height: 100vh;
+      position: relative;
     }
 
     .logo {
@@ -23,6 +23,7 @@
       max-width: 360px;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
       margin-bottom: 24px;
     }
 
@@ -31,16 +32,21 @@
       margin-bottom: 12px;
     }
 
-    p {
-      font-size: 16px;
-      color: #666;
-      margin-bottom: 30px;
-    }
-
     select {
       font-size: 16px;
-      margin-bottom: 16px;
+      margin-top: 20px;
       padding: 6px 12px;
+    }
+
+    #subtitle {
+      font-size: 14px;
+      color: #666;
+      position: absolute;
+      bottom: 16px;
+      right: 40px;
+      transform: translateY(100%);
+      width: 200px;
+      text-align: center;
     }
 
     .vapi-launcher {
@@ -64,10 +70,10 @@
 
   <!-- Logo -->
   <img src="yotel-logo.jpg" alt="Yotel New York Logo" class="logo" />
-
-  <!-- Title and Subtitle -->
   <h1 id="title">Speak To Your Personal Yotel Assistant</h1>
-  <p id="subtitle">Tap the green phone icon to begin.</p>
+
+  <!-- Subtitle (Now moved below the phone icon) -->
+  <div id="subtitle">Tap the green phone icon to begin.</div>
 
   <!-- VAPI Widget Script -->
   <script>
