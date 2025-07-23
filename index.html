@@ -64,13 +64,60 @@
 
   <!-- Logo -->
   <img src="yotel-logo.jpg" alt="Yotel New York Logo" class="logo" />
-  <h1>Speak To Your Personal Yotel Assistant</h1>
-  <p>Tap the green phone icon to begin.</p>
+
+  <!-- Title and Subtitle -->
+  <h1 id="title">Speak To Your Personal Yotel Assistant</h1>
+  <p id="subtitle">Tap the green phone icon to begin.</p>
 
   <!-- VAPI Widget Script -->
   <script>
     const apiKey = "863d4e06-2fac-4b88-b942-3fd5ff785b95";
     const assistantId = "ff2f0acb-f94a-4c83-a003-7baefbc70e3a";
+
+    const translations = {
+      en: {
+        title: "Speak To Your Personal Yotel Assistant",
+        subtitle: "Tap the green phone icon to begin."
+      },
+      es: {
+        title: "Habla con tu Asistente Personal de Yotel",
+        subtitle: "Toca el ícono verde para comenzar."
+      },
+      fr: {
+        title: "Parlez à votre assistant personnel Yotel",
+        subtitle: "Appuyez sur l'icône verte pour commencer."
+      },
+      it: {
+        title: "Parla con il tuo assistente personale Yotel",
+        subtitle: "Tocca l'icona verde per iniziare."
+      },
+      de: {
+        title: "Sprechen Sie mit Ihrem persönlichen Yotel-Assistenten",
+        subtitle: "Tippen Sie auf das grüne Telefonsymbol, um zu starten."
+      },
+      zh: {
+        title: "与您的 Yotel 专属助手通话",
+        subtitle: "点击绿色图标开始。"
+      }
+    };
+
+    const selector = document.getElementById("language");
+    const titleEl = document.getElementById("title");
+    const subtitleEl = document.getElementById("subtitle");
+
+    function updateLanguageText(lang) {
+      const t = translations[lang] || translations["en"];
+      titleEl.textContent = t.title;
+      subtitleEl.textContent = t.subtitle;
+    }
+
+    selector.addEventListener("change", function () {
+      const lang = this.value;
+      updateLanguageText(lang);
+      window.vapiSDK.updateContext({
+        language: lang
+      });
+    });
 
     (function (d, t) {
       var g = d.createElement(t),
@@ -80,14 +127,15 @@
       g.async = true;
       s.parentNode.insertBefore(g, s);
       g.onload = function () {
-        const selector = document.getElementById("language");
+        const lang = selector.value;
+        updateLanguageText(lang);
 
         window.vapiSDK.run({
           apiKey: apiKey,
           assistant: assistantId,
-          disableDefaultLauncher: false, // Show green phone
+          disableDefaultLauncher: false,
           context: {
-            language: selector.value
+            language: lang
           },
           config: {
             theme: {
@@ -96,13 +144,6 @@
               }
             }
           }
-        });
-
-        // Optional: update context if user changes language before clicking
-        selector.addEventListener("change", function () {
-          window.vapiSDK.updateContext({
-            language: this.value
-          });
         });
       };
     })(document, "script");
