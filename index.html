@@ -13,9 +13,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       text-align: center;
       height: 100vh;
-      position: relative;
     }
 
     .logo {
@@ -23,7 +23,6 @@
       max-width: 360px;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      margin-top: 20px;
       margin-bottom: 24px;
     }
 
@@ -32,22 +31,16 @@
       margin-bottom: 12px;
     }
 
+    p {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 30px;
+    }
+
     select {
       font-size: 16px;
       margin-bottom: 16px;
       padding: 6px 12px;
-    }
-
-    #subtitle {
-      font-size: 14px;
-      color: #666;
-      position: fixed;
-      bottom: 0;
-      right: 40px;
-      width: 200px;
-      text-align: center;
-      margin-bottom: 60px;
-      z-index: 10;
     }
 
     .vapi-launcher {
@@ -76,33 +69,41 @@
   <h1 id="title">Speak To Your Personal Yotel Assistant</h1>
   <p id="subtitle">Tap the green phone icon to begin.</p>
 
-  <!-- Load VAPI Web SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@vapi-ai/web-sdk@latest/dist/index.umd.min.js"></script>
+  <!-- VAPI Widget Script -->
   <script>
-    const translations = {
-      en: { title: "Speak To Your Personal Yotel Assistant", subtitle: "Tap the green phone icon to begin." },
-      es: { title: "Habla con tu Asistente Personal de Yotel", subtitle: "Toca el ícono verde para comenzar." },
-      fr: { title: "Parlez à votre assistant personnel Yotel", subtitle: "Appuyez sur l'icône verte pour commencer." },
-      it: { title: "Parla con il tuo assistente personale Yotel", subtitle: "Tocca l'icona verde per iniziare." },
-      de: { title: "Sprechen Sie mit Ihrem persönlichen Yotel-Assistenten", subtitle: "Tippen Sie auf das grüne Telefonsymbol, um zu starten." },
-      zh: { title: "与您的 Yotel 专属助手通话", subtitle: "点击绿色图标开始。" }
-    };
+    const apiKey = "863d4e06-2fac-4b88-b942-3fd5ff785b95";
+    const assistantId = "ff2f0acb-f94a-4c83-a003-7baefbc70e3a";
 
-    // Map each language to a specific assistant ID
-    const assistantMap = {
-      en: "ff2f0acb-f94a-4c83-a003-7baefbc70e3a",
-      es: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-      fr: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-      it: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-      de: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
-      zh: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+    const translations = {
+      en: {
+        title: "Speak To Your Personal Yotel Assistant",
+        subtitle: "Tap the green phone icon to begin."
+      },
+      es: {
+        title: "Habla con tu Asistente Personal de Yotel",
+        subtitle: "Toca el ícono verde para comenzar."
+      },
+      fr: {
+        title: "Parlez à votre assistant personnel Yotel",
+        subtitle: "Appuyez sur l'icône verte pour commencer."
+      },
+      it: {
+        title: "Parla con il tuo assistente personale Yotel",
+        subtitle: "Tocca l'icona verde per iniziare."
+      },
+      de: {
+        title: "Sprechen Sie mit Ihrem persönlichen Yotel-Assistenten",
+        subtitle: "Tippen Sie auf das grüne Telefonsymbol, um zu starten."
+      },
+      zh: {
+        title: "与您的 Yotel 专属助手通话",
+        subtitle: "点击绿色图标开始。"
+      }
     };
 
     const selector = document.getElementById("language");
     const titleEl = document.getElementById("title");
     const subtitleEl = document.getElementById("subtitle");
-
-    let vapi = null;
 
     function updateLanguageText(lang) {
       const t = translations[lang] || translations["en"];
@@ -110,33 +111,42 @@
       subtitleEl.textContent = t.subtitle;
     }
 
-    function loadVapiAssistant(lang) {
-      if (vapi) vapi.destroy(); // Cleanup any existing instance
-      const assistantId = assistantMap[lang] || assistantMap["en"];
-
-      vapi = new window.Vapi(assistantId);
-      vapi.setContext({ language: lang });
-      vapi.setConfig({
-        theme: {
-          button: {
-            backgroundColor: "#00c851"
-          }
-        }
-      });
-      vapi.showDefaultLauncher();
-    }
-
-    window.addEventListener("DOMContentLoaded", () => {
-      const lang = selector.value;
+    selector.addEventListener("change", function () {
+      const lang = this.value;
       updateLanguageText(lang);
-      loadVapiAssistant(lang);
-
-      selector.addEventListener("change", function () {
-        const selectedLang = this.value;
-        updateLanguageText(selectedLang);
-        loadVapiAssistant(selectedLang);
+      window.vapiSDK.updateContext({
+        language: lang
       });
     });
+
+    (function (d, t) {
+      var g = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      g.src = "https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
+      g.defer = true;
+      g.async = true;
+      s.parentNode.insertBefore(g, s);
+      g.onload = function () {
+        const lang = selector.value;
+        updateLanguageText(lang);
+
+        window.vapiSDK.run({
+          apiKey: apiKey,
+          assistant: assistantId,
+          disableDefaultLauncher: false,
+          context: {
+            language: lang
+          },
+          config: {
+            theme: {
+              button: {
+                backgroundColor: "#00c851"
+              }
+            }
+          }
+        });
+      };
+    })(document, "script");
   </script>
 </body>
 </html>
