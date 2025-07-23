@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Speak To Your Personal Yotel Assistant</title>
   <style>
     body {
@@ -16,7 +16,6 @@
       justify-content: center;
       text-align: center;
       height: 100vh;
-      position: relative;
     }
 
     .logo {
@@ -51,18 +50,15 @@
     }
 
     .footer {
-      position: absolute;
-      bottom: 12px;
+      font-size: 14px;
+      margin-top: 20px;
       display: flex;
       align-items: center;
-      font-size: 14px;
-      color: #666;
+      gap: 10px;
     }
 
     .footer img {
-      width: 20px;
-      height: 20px;
-      margin-right: 8px;
+      height: 16px;
     }
   </style>
 </head>
@@ -87,7 +83,7 @@
 
   <!-- Footer -->
   <div class="footer">
-    <img src="mg_siteicon.png" alt="MetaGuest Logo" />
+    <img src="mg_siteicon.png" alt="Metaguest Logo" />
     <span>© 2025 Metaguest Incorporated</span>
   </div>
 
@@ -96,7 +92,7 @@
     const apiKey = "863d4e06-2fac-4b88-b942-3fd5ff785b95";
 
     const assistantMap = {
-      en: "ff2f0acb-f94a-4c83-a003-7baefbc70e3a", // Replace with your real assistant IDs
+      en: "ff2f0acb-f94a-4c83-a003-7baefbc70e3a",
       es: "d11ee862-f676-4cf3-a3d7-ffd062343f7c",
       fr: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
       it: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -158,12 +154,10 @@
       s.parentNode.insertBefore(g, s);
       g.onload = function () {
         const lang = selector.value;
-        const assistantId = assistantMap[lang] || assistantMap["en"];
         updateLanguageText(lang);
-
         window.vapiSDK.run({
           apiKey: apiKey,
-          assistant: assistantId,
+          assistant: assistantMap[lang],
           disableDefaultLauncher: false,
           context: {
             language: lang
