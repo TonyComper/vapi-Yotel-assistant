@@ -72,7 +72,15 @@
   <!-- VAPI Widget Script -->
   <script>
     const apiKey = "863d4e06-2fac-4b88-b942-3fd5ff785b95";
-    const assistantId = "ff2f0acb-f94a-4c83-a003-7baefbc70e3a";
+
+    const assistantMap = {
+      en: "ff2f0acb-f94a-4c83-a003-7baefbc70e3a", // Replace with your actual IDs
+      es: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      fr: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      it: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      de: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      zh: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+    };
 
     const translations = {
       en: {
@@ -128,6 +136,7 @@
       s.parentNode.insertBefore(g, s);
       g.onload = function () {
         const lang = selector.value;
+        const assistantId = assistantMap[lang] || assistantMap["en"];
         updateLanguageText(lang);
 
         window.vapiSDK.run({
