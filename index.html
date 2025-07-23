@@ -13,9 +13,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
       text-align: center;
       height: 100vh;
+      position: relative;
     }
 
     .logo {
@@ -23,6 +23,7 @@
       max-width: 360px;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
       margin-bottom: 24px;
     }
 
@@ -31,16 +32,22 @@
       margin-bottom: 12px;
     }
 
-    p {
-      font-size: 16px;
-      color: #666;
-      margin-bottom: 30px;
-    }
-
     select {
       font-size: 16px;
       margin-bottom: 16px;
       padding: 6px 12px;
+    }
+
+    #subtitle {
+      font-size: 14px;
+      color: #666;
+      position: fixed;
+      bottom: 0;
+      right: 40px;
+      width: 200px;
+      text-align: center;
+      margin-bottom: 60px;
+      z-index: 10;
     }
 
     .vapi-launcher {
@@ -69,7 +76,7 @@
   <h1 id="title">Speak To Your Personal Yotel Assistant</h1>
   <p id="subtitle">Tap the green phone icon to begin.</p>
 
-  <!-- VAPI Widget Script -->
+  <!-- Load VAPI Web SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@vapi-ai/web-sdk@latest/dist/index.umd.min.js"></script>
   <script>
     const translations = {
@@ -81,6 +88,7 @@
       zh: { title: "与您的 Yotel 专属助手通话", subtitle: "点击绿色图标开始。" }
     };
 
+    // Map each language to a specific assistant ID
     const assistantMap = {
       en: "ff2f0acb-f94a-4c83-a003-7baefbc70e3a",
       es: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -103,7 +111,7 @@
     }
 
     function loadVapiAssistant(lang) {
-      if (vapi) vapi.destroy();
+      if (vapi) vapi.destroy(); // Cleanup any existing instance
       const assistantId = assistantMap[lang] || assistantMap["en"];
 
       vapi = new window.Vapi(assistantId);
