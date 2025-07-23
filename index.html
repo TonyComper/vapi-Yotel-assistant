@@ -42,11 +42,11 @@
       font-size: 14px;
       color: #666;
       position: fixed;
-      bottom: 10px;
+      bottom: 0;
       right: 40px;
-      transform: translateY(100%);
       width: 200px;
       text-align: center;
+      margin-bottom: 60px; /* just below the launcher */
       z-index: 10;
     }
 
@@ -73,15 +73,13 @@
   <img src="yotel-logo.jpg" alt="Yotel New York Logo" class="logo" />
   <h1 id="title">Speak To Your Personal Yotel Assistant</h1>
 
-  <!-- Subtitle (below the green phone icon) -->
+  <!-- Subtitle (below the phone icon) -->
   <div id="subtitle">Tap the green phone icon to begin.</div>
 
   <!-- Load Official VAPI Web SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@vapi-ai/web-sdk@latest/dist/index.umd.min.js"></script>
   <script>
-    const apiKey = "863d4e06-2fac-4b88-b942-3fd5ff785b95";
     const assistantId = "ff2f0acb-f94a-4c83-a003-7baefbc70e3a";
-
     const selector = document.getElementById("language");
     const titleEl = document.getElementById("title");
     const subtitleEl = document.getElementById("subtitle");
@@ -120,12 +118,11 @@
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-      const vapi = new window.Vapi(apiKey);
       const lang = selector.value;
-
       updateLanguageText(lang);
 
-      vapi.setDefaultAssistant(assistantId);
+      const vapi = new window.Vapi(assistantId);
+      vapi.setContext({ language: lang });
       vapi.setConfig({
         theme: {
           button: {
@@ -133,7 +130,6 @@
           }
         }
       });
-      vapi.setContext({ language: lang });
       vapi.showDefaultLauncher();
 
       selector.addEventListener("change", function () {
