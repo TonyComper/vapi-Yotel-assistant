@@ -37,7 +37,12 @@
       margin-bottom: 30px;
     }
 
-    /* Make green phone icon larger */
+    select {
+      font-size: 16px;
+      margin-bottom: 16px;
+      padding: 6px 12px;
+    }
+
     .vapi-launcher {
       transform: scale(1.6) !important;
       bottom: 40px !important;
@@ -46,11 +51,23 @@
   </style>
 </head>
 <body>
+  <!-- Language Selector -->
+  <label for="language">🌐 Select Language:</label>
+  <select id="language">
+    <option value="en">English</option>
+    <option value="es">Español</option>
+    <option value="fr">Français</option>
+    <option value="it">Italiano</option>
+    <option value="de">Deutsch</option>
+    <option value="zh">中文 (Mandarin)</option>
+  </select>
+
+  <!-- Logo -->
   <img src="yotel-logo.jpg" alt="Yotel New York Logo" class="logo" />
   <h1>Speak To Your Personal Yotel Assistant</h1>
   <p>Tap the green phone icon to begin.</p>
 
-  <!-- Vapi Widget Script -->
+  <!-- VAPI Widget Script -->
   <script>
     const apiKey = "863d4e06-2fac-4b88-b942-3fd5ff785b95";
     const assistantId = "ff2f0acb-f94a-4c83-a003-7baefbc70e3a";
@@ -63,17 +80,29 @@
       g.async = true;
       s.parentNode.insertBefore(g, s);
       g.onload = function () {
+        const selector = document.getElementById("language");
+
         window.vapiSDK.run({
           apiKey: apiKey,
           assistant: assistantId,
-          disableDefaultLauncher: false, // Enable the green phone icon
+          disableDefaultLauncher: false, // Show green phone
+          context: {
+            language: selector.value
+          },
           config: {
             theme: {
               button: {
-                backgroundColor: "#00c851", // Green color
+                backgroundColor: "#00c851"
               }
             }
           }
+        });
+
+        // Optional: update context if user changes language before clicking
+        selector.addEventListener("change", function () {
+          window.vapiSDK.updateContext({
+            language: this.value
+          });
         });
       };
     })(document, "script");
