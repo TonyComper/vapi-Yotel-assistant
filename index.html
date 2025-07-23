@@ -16,6 +16,7 @@
       justify-content: center;
       text-align: center;
       height: 100vh;
+      position: relative;
     }
 
     .logo {
@@ -48,6 +49,21 @@
       bottom: 40px !important;
       right: 40px !important;
     }
+
+    .footer {
+      position: absolute;
+      bottom: 12px;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .footer img {
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+    }
   </style>
 </head>
 <body>
@@ -69,12 +85,18 @@
   <h1 id="title">Speak To Your Personal Yotel Assistant</h1>
   <p id="subtitle">Tap the green phone icon to begin.</p>
 
+  <!-- Footer -->
+  <div class="footer">
+    <img src="mg_siteicon.png" alt="MetaGuest Logo" />
+    <span>(c) 2025 Metaguest Incorporated</span>
+  </div>
+
   <!-- VAPI Widget Script -->
   <script>
     const apiKey = "863d4e06-2fac-4b88-b942-3fd5ff785b95";
 
     const assistantMap = {
-      en: "ff2f0acb-f94a-4c83-a003-7baefbc70e3a", // Replace with your actual IDs
+      en: "ff2f0acb-f94a-4c83-a003-7baefbc70e3a", // Replace with your real assistant IDs
       es: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
       fr: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
       it: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
