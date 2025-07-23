@@ -1,93 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Speak To Your Personal Yotel Assistant</title>
+  <meta charset="UTF-8">
+  <title>Yotel Voice Assistant</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      font-family: sans-serif;
-      background-color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      background-color: #f9f9f9;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       text-align: center;
-      height: 100vh;
+      padding: 40px 20px;
     }
-
-    .logo {
-      width: 90%;
-      max-width: 360px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      margin-bottom: 24px;
+    #logo {
+      max-width: 160px;
+      margin: 0 auto 24px;
+      display: block;
     }
-
     h1 {
-      font-size: 24px;
+      font-size: 26px;
       margin-bottom: 12px;
+      color: #333;
     }
-
     p {
       font-size: 16px;
-      color: #666;
       margin-bottom: 30px;
+      color: #555;
     }
-
     select {
+      padding: 8px 14px;
       font-size: 16px;
-      margin-bottom: 16px;
-      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
     }
-
-    .vapi-launcher {
-      transform: scale(1.6) !important;
-      bottom: 40px !important;
-      right: 40px !important;
+    button {
+      font-size: 18px;
+      padding: 12px 20px;
+      background-color: #00c851;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
     }
-
-    .footer {
+    footer {
+      margin-top: 60px;
       font-size: 14px;
-      margin-top: 20px;
+      color: #666;
       display: flex;
       align-items: center;
-      gap: 10px;
+      justify-content: center;
+      gap: 8px;
     }
-
-    .footer img {
-      height: 16px;
+    footer img {
+      height: 18px;
     }
   </style>
 </head>
 <body>
-  <!-- Language Selector -->
-  <label for="language">🌐 Select Language:</label>
+  <img src="mg_siteicon.png" alt="MetaGuest Logo" id="logo" />
+  <h1 id="title">Speak To Your Personal Yotel Assistant</h1>
+  <p id="subtitle">Tap the green phone icon to begin.</p>
+
   <select id="language">
     <option value="en">English</option>
     <option value="es">Español</option>
     <option value="fr">Français</option>
     <option value="it">Italiano</option>
     <option value="de">Deutsch</option>
-    <option value="zh">中文 (Mandarin)</option>
+    <option value="zh">中文</option>
   </select>
+  <br />
+  <button id="start-call">📞 Start Call</button>
 
-  <!-- Logo -->
-  <img src="yotel-logo.jpg" alt="Yotel New York Logo" class="logo" />
-
-  <!-- Title and Subtitle -->
-  <h1 id="title">Speak To Your Personal Yotel Assistant</h1>
-  <p id="subtitle">Tap the green phone icon to begin.</p>
-
-  <!-- Footer -->
-  <div class="footer">
-    <img src="mg_siteicon.png" alt="Metaguest Logo" />
+  <footer>
+    <img src="mg_siteicon.png" alt="Logo" />
     <span>© 2025 Metaguest Incorporated</span>
-  </div>
+  </footer>
 
-  <!-- VAPI Widget Script -->
   <script>
     const apiKey = "863d4e06-2fac-4b88-b942-3fd5ff785b95";
 
@@ -103,73 +92,82 @@
     const translations = {
       en: {
         title: "Speak To Your Personal Yotel Assistant",
-        subtitle: "Tap the green phone icon to begin."
+        subtitle: "Tap the green phone icon to begin.",
+        button: "📞 Start Call"
       },
       es: {
         title: "Habla con tu Asistente Personal de Yotel",
-        subtitle: "Toca el ícono verde para comenzar."
+        subtitle: "Toca el ícono verde para comenzar.",
+        button: "📞 Iniciar Llamada"
       },
       fr: {
-        title: "Parlez à votre assistant personnel Yotel",
-        subtitle: "Appuyez sur l'icône verte pour commencer."
+        title: "Parlez à votre assistant Yotel personnel",
+        subtitle: "Appuyez sur l'icône verte pour commencer.",
+        button: "📞 Démarrer l'appel"
       },
       it: {
-        title: "Parla con il tuo assistente personale Yotel",
-        subtitle: "Tocca l'icona verde per iniziare."
+        title: "Parla con il tuo Assistente Personale Yotel",
+        subtitle: "Tocca l'icona verde per iniziare.",
+        button: "📞 Avvia Chiamata"
       },
       de: {
         title: "Sprechen Sie mit Ihrem persönlichen Yotel-Assistenten",
-        subtitle: "Tippen Sie auf das grüne Telefonsymbol, um zu starten."
+        subtitle: "Tippen Sie auf das grüne Telefonsymbol, um zu beginnen.",
+        button: "📞 Anruf starten"
       },
       zh: {
-        title: "与您的 Yotel 专属助手通话",
-        subtitle: "点击绿色图标开始。"
+        title: "与您的 Yotel 专属助理通话",
+        subtitle: "点击绿色电话图标开始。",
+        button: "📞 开始通话"
       }
     };
 
     const selector = document.getElementById("language");
     const titleEl = document.getElementById("title");
     const subtitleEl = document.getElementById("subtitle");
+    const startButton = document.getElementById("start-call");
 
     function updateLanguageText(lang) {
       const t = translations[lang] || translations["en"];
       titleEl.textContent = t.title;
       subtitleEl.textContent = t.subtitle;
+      startButton.textContent = t.button;
     }
 
     selector.addEventListener("change", function () {
-      const lang = this.value;
-      updateLanguageText(lang);
-      window.vapiSDK.updateContext({
-        language: lang
-      });
+      updateLanguageText(this.value);
     });
 
     (function (d, t) {
-      var g = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
+      const g = d.createElement(t), s = d.getElementsByTagName(t)[0];
       g.src = "https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
       g.defer = true;
       g.async = true;
       s.parentNode.insertBefore(g, s);
+
       g.onload = function () {
-        const lang = selector.value;
-        updateLanguageText(lang);
-        window.vapiSDK.run({
-          apiKey: apiKey,
-          assistant: assistantMap[lang],
-          disableDefaultLauncher: false,
-          context: {
-            language: lang
-          },
-          config: {
-            theme: {
-              button: {
-                backgroundColor: "#00c851"
+        startButton.addEventListener("click", () => {
+          const lang = selector.value;
+          const assistantId = assistantMap[lang] || assistantMap["en"];
+
+          window.vapiSDK.run({
+            apiKey: apiKey,
+            assistant: assistantId,
+            context: {
+              language: lang
+            },
+            config: {
+              theme: {
+                button: {
+                  backgroundColor: "#00c851"
+                }
               }
             }
-          }
+          });
         });
+
+        // Initialize UI on load
+        updateLanguageText(selector.value);
       };
     })(document, "script");
   </script>
